@@ -2,6 +2,7 @@
 
 Utility to generate a banner to print in server logs.
 
+##### Example : _Java-8_
 
 ```
 ======================================================
