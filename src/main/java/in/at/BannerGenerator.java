@@ -19,7 +19,13 @@ public final class BannerGenerator {
 
     public static final String WORD_FORMAT = String.format("%%-%ds", CHAR_WIDTH);
 
+    private static final int MAX_WORD_LENGTH = 10;
+
     public static String generate(String word) {
+        if(word.length() > MAX_WORD_LENGTH) {
+            throw new UnsupportedOperationException(String.format("Banner generation for word more than %d characters is not supported.", MAX_WORD_LENGTH));
+        }
+
         Map<Character, List<String>> charToBigCharMap = bigCharacters();
         List<List<String>> bigChars = word.chars().filter(BannerGenerator::validateChar)
                                                     .mapToObj(codePoint -> charToBigCharMap.get((char)codePoint))
@@ -62,7 +68,7 @@ public final class BannerGenerator {
     private static Map<Character, List<String>> bigCharacters() {
         List<String> bigChars = null;
         try {
-            URL fileUrl = BannerGenerator.class.getClassLoader().getResource("alphabets.txt");
+            URL fileUrl = BannerGenerator.class.getClassLoader().getResource("bigchars.txt");
             File alphabets = new File(fileUrl.toURI());
             bigChars = Files.readAllLines(alphabets.toPath());
         } catch (URISyntaxException | IOException e) {
